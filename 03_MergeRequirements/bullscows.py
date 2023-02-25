@@ -1,5 +1,6 @@
 import argparse
 import random
+from cowsay import cowsay, list_cows
 from typing import Tuple
 from urllib.request import urlopen
 
@@ -25,13 +26,23 @@ def bullscows(guess: str, secret: str) -> Tuple[int, int]:
 
 def ask(prompt: str, valid: list[str] = None) -> str:
     while True:
-        word = input(prompt)
+        word = input(
+            cowsay(
+                message=prompt,
+                cow=random.choice(list_cows()),
+        ) + '\n'
+        )
         if valid is None or word in valid:
             return word
 
 
 def inform(format_string: str, bulls: int, cows: int):
-    print(format_string.format(bulls, cows))
+    print(
+        cowsay(
+            message=format_string.format(bulls, cows),
+            cow=random.choice(list_cows()),
+        )
+    )
 
 
 def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
